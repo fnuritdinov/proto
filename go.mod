@@ -1,4 +1,4 @@
-module proto
+module github.com/fnuritdinov/proto
 
 go 1.26.3
 
