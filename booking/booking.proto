@@ -7,10 +7,8 @@ option go_package = "/booking";
 service BookingService {
   rpc CreateBooking(CreateBookingRequest) returns (CreateBookingResponse);
   rpc GetBooking(GetBookingRequest) returns (GetBookingResponse);
-  rpc GetUserBookings(GetUserBookingsRequest)
-      returns (GetUserBookingsResponse);
-  rpc CancelBooking(CancelBookingRequest)
-      returns (CancelBookingResponse);
+  rpc GetUserBookings(GetUserBookingsRequest)returns (GetUserBookingsResponse);
+  rpc CancelBooking(CancelBookingRequest)returns (CancelBookingResponse);
 }
 
 enum BookingStatus {
