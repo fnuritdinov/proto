@@ -84,9 +84,7 @@ message UpdateUserResponse {
   string message = 2;
 }
 
-message ListUsersRequest {
-  repeated User user = 1;
-}
+message ListUsersRequest {}
 
 message ListUsersResponse {
   repeated User users = 1;
