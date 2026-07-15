@@ -26,6 +26,8 @@ const (
 	UserService_GetUser_FullMethodName      = "/user.v1.UserService/GetUser"
 	UserService_ListUsers_FullMethodName    = "/user.v1.UserService/ListUsers"
 	UserService_UpdateUser_FullMethodName   = "/user.v1.UserService/UpdateUser"
+	UserService_GetUserMe_FullMethodName    = "/user.v1.UserService/GetUserMe"
+	UserService_CheckToken_FullMethodName   = "/user.v1.UserService/CheckToken"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -39,6 +41,8 @@ type UserServiceClient interface {
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
+	GetUserMe(ctx context.Context, in *GetUserMeRequest, opts ...grpc.CallOption) (*GetUserMeResponse, error)
+	CheckToken(ctx context.Context, in *CheckTokenRequest, opts ...grpc.CallOption) (*CheckTokenResponse, error)
 }
 
 type userServiceClient struct {
@@ -119,6 +123,26 @@ func (c *userServiceClient) UpdateUser(ctx context.Context, in *UpdateUserReques
 	return out, nil
 }
 
+func (c *userServiceClient) GetUserMe(ctx context.Context, in *GetUserMeRequest, opts ...grpc.CallOption) (*GetUserMeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserMeResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUserMe_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) CheckToken(ctx context.Context, in *CheckTokenRequest, opts ...grpc.CallOption) (*CheckTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckTokenResponse)
+	err := c.cc.Invoke(ctx, UserService_CheckToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -130,6 +154,8 @@ type UserServiceServer interface {
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
+	GetUserMe(context.Context, *GetUserMeRequest) (*GetUserMeResponse, error)
+	CheckToken(context.Context, *CheckTokenRequest) (*CheckTokenResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -160,6 +186,12 @@ func (UnimplementedUserServiceServer) ListUsers(context.Context, *ListUsersReque
 }
 func (UnimplementedUserServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserMe(context.Context, *GetUserMeRequest) (*GetUserMeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetUserMe not implemented")
+}
+func (UnimplementedUserServiceServer) CheckToken(context.Context, *CheckTokenRequest) (*CheckTokenResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CheckToken not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -308,6 +340,42 @@ func _UserService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUserMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserMeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserMe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserMe_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserMe(ctx, req.(*GetUserMeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_CheckToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CheckToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_CheckToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CheckToken(ctx, req.(*CheckTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,6 +410,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateUser",
 			Handler:    _UserService_UpdateUser_Handler,
+		},
+		{
+			MethodName: "GetUserMe",
+			Handler:    _UserService_GetUserMe_Handler,
+		},
+		{
+			MethodName: "CheckToken",
+			Handler:    _UserService_CheckToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

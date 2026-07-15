@@ -13,7 +13,9 @@ service UserService {
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
   rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-  rpc GetUserMe() returns GetUserMe();
+  rpc GetUserMe(GetUserMeRequest) returns (GetUserMeResponse);
+  rpc CheckToken(CheckTokenRequest) returns (CheckTokenResponse);
+
 }
 
 message User {
@@ -89,4 +91,20 @@ message ListUsersRequest {}
 
 message ListUsersResponse {
   repeated User users = 1;
+}
+
+message GetUserMeRequest {
+  int64 id = 1;
+}
+
+message GetUserMeResponse {
+  User user = 1;
+}
+
+message CheckTokenRequest {
+  string access_token = 1;
+}
+
+message CheckTokenResponse {
+  User user = 1;
 }
